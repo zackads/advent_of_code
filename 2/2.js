@@ -5,12 +5,6 @@ const destructurePassword = (passwordWithRule) => {
   return [raw[0].split("-").map((n) => parseInt(n, 10)), raw[1][0], raw[2]];
 };
 
-const count = (char, string) => {
-  return string
-    .split("")
-    .reduce((count, c) => (c === char ? count + 1 : count), 0);
-};
-
 const valid = (char, positions, string) => {
   // Is char at exactly one of positions in string?
   return (
