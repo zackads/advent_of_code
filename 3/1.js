@@ -2,16 +2,12 @@ let fs = require("fs");
 
 const rows = fs.readFileSync("input").toString().split("\n");
 
-let treeCount = 0;
 let currentIndex = 0;
-rows.forEach((r) => {
-  let cell = r.repeat(300)[currentIndex];
-
-  if (cell === "#") {
-    treeCount += 1;
-  }
-
+const treeCount = rows.reduce((acc, cur) => {
+  let cell = cur.repeat(300)[currentIndex];
   currentIndex += 3;
-});
+
+  return cell === "#" ? (acc += 1) : acc;
+}, 0);
 
 console.log(treeCount);
