@@ -1,5 +1,5 @@
 const { expect, describe } = require("@jest/globals");
-const { countGroup, histogram, common } = require("./2");
+const { countYesAnswers, histogram, commonChars } = require("./2");
 
 describe("histogram", () => {
   const expectations = [
@@ -17,7 +17,7 @@ describe("histogram", () => {
   });
 });
 
-describe("common", () => {
+describe("commonChars", () => {
   const expectations = [
     { input: ["a", "a"], output: ["a"] },
     { input: ["ab", "ab"], output: ["a", "b"] },
@@ -29,12 +29,12 @@ describe("common", () => {
     test(`input ${JSON.stringify(test_case.input)} returns [${
       test_case.output
     }] `, () => {
-      expect(common(...test_case.input)).toEqual(test_case.output);
+      expect(commonChars(...test_case.input)).toEqual(test_case.output);
     });
   });
 });
 
-describe("countGroup", () => {
+describe("countYesAnswers", () => {
   const expectations = [
     { input: "", output: 0 },
     { input: "a", output: 1 },
@@ -56,7 +56,7 @@ describe("countGroup", () => {
     test(`input ${JSON.stringify(test_case.input)} returns [${
       test_case.output
     }] `, () => {
-      expect(countGroup(test_case.input)).toEqual(test_case.output);
+      expect(countYesAnswers(test_case.input)).toEqual(test_case.output);
     });
   });
 });
