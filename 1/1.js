@@ -9,9 +9,22 @@ const expenses = fs
 // I know this is Very Bad...
 // but it was also Very Quick for me to write
 // and Very Easy for you to understand ;-)
-expenses.forEach((e1) => {
-  expenses.forEach((e2) => {
-    if (e1 + e2 === 2020)
-      console.log(`${e1} multiplied by ${e2} is ${e1 * e2}`);
+console.log("Old way...");
+expenses.forEach((expense1) => {
+  expenses.forEach((expense2) => {
+    if (expense1 + expense2 === 2020)
+      console.log(
+        `${expense1} multiplied by ${expense2} is ${expense1 * expense2}`
+      );
   });
+});
+
+console.log("New way (with a set)...");
+const expenseSet = new Set();
+expenses.forEach((expense) => {
+  if (expenseSet.has(expense)) {
+    console.log((2020 - expense) * expense);
+    return (2020 - expense) * expense;
+  }
+  expenseSet.add(2020 - expense);
 });

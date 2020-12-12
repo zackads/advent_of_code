@@ -18,13 +18,11 @@ const rules = {
     passport.eyr <= 2030,
   validHeight: (passport) => {
     if (passport.hasOwnProperty("hgt")) {
-      const numberWithUnitRegex = /^\d+(cm|in)$/;
       const unit = passport.hgt.slice(-2);
       const value = passport.hgt.slice(0, -2);
 
-      return passport.hgt.match(numberWithUnitRegex) && unit === "cm"
-        ? value >= 150 && value <= 193
-        : value >= 59 && value <= 76;
+      if (unit === "cm") return value >= 150 && value <= 193;
+      if (unit === "in") return value >= 59 && value <= 76;
     }
     return false;
   },
