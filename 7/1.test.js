@@ -87,28 +87,28 @@ describe("bagTree", () => {
         ["bright white", "hot pink"],
       ],
     },
-    // {
-    //   input: [
-    //     ["light blue", "bright white", "hot pink"],
-    //     ["bright white", "hot pink"],
-    //     ["hot pink", "deep blue"],
-    //   ],
-    //   output: [
-    //     ["light blue", "bright white", "hot pink", "deep blue"],
-    //     ["bright white", "hot pink"],
-    //     ["hot pink", "deep blue"],
-    //   ],
-    // },
-    // {
-    //   input: {
-    //     "cajun pink": [{ "bright white": [] }],
-    //     "bright white": [{ "deep red": [] }],
-    //   },
-    //   output: {
-    //     "cajun pink": [{ "bright white": [{ "deep red": [] }] }],
-    //     "bright white": [{ "deep red": [] }],
-    //   },
-    // },
+    {
+      input: [
+        ["light blue", "bright white", "hot pink"],
+        ["bright white", "hot pink"],
+        ["hot pink", "deep blue"],
+      ],
+      output: [
+        ["light blue", "bright white", "hot pink", "deep blue"],
+        ["bright white", "hot pink", "deep blue"],
+        ["hot pink", "deep blue"],
+      ],
+    },
+    {
+      input: [
+        ["cajun pink", "bright white"],
+        ["bright white", "deep red"],
+      ],
+      output: [
+        ["cajun pink", "bright white", "deep red"],
+        ["bright white", "deep red"],
+      ],
+    },
   ];
 
   expectations.forEach((test_case) => {

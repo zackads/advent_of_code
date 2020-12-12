@@ -20,15 +20,19 @@ const defineBags = (bags) => {
 };
 
 const bagTree = (definedBags) => {
+  // Not happy with this. Plan to refactor.
   let newDefinedBags = definedBags.slice();
-  definedBags.forEach((bag1) => {
-    definedBags.forEach((bag2) => {
-      if (bag1[1] === bag2[0]) {
-        bag1.push(bag2[1]);
-      }
+  newDefinedBags.forEach((bag1) => {
+    newDefinedBags.forEach((bag2) => {
+      bag1.forEach((bag3) => {
+        if (bag3 === bag2[0]) {
+          bag1.push(...bag2.slice(1));
+        }
+      });
     });
   });
-  return newDefinedBags;
+
+  return newDefinedBags.map((arr) => [...new Set(arr)]);
 };
 
 module.exports = {
