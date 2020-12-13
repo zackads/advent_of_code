@@ -3,11 +3,12 @@ class Game {
     this.accumulator = 0;
     this.currentIndex = 0;
     this.instructions = instructions;
+    this.visited = [];
   }
 
   play() {
     while (this.currentIndex < this.instructions.length) {
-      if (this.current().executed_times === 1) {
+      if (this.visited.includes(this.current())) {
         return false;
       }
       this.execute();
@@ -16,7 +17,7 @@ class Game {
   }
 
   execute() {
-    this.current().executed_times += 1;
+    this.visited.push(this.current());
     switch (this.current().operation) {
       case "nop":
         this.move(1);
@@ -46,17 +47,19 @@ const parse = (rawInstructions) => {
   return rawInstructions.map((rawInstruction) => {
     const operation = rawInstruction.split(" ")[0];
     const magnitude = parseInt(rawInstruction.split(" ")[1]);
-    return { operation: operation, magnitude: magnitude, executed_times: 0 };
+    return { operation: operation, magnitude: magnitude };
   });
 };
 
 const fs = require("fs");
-const instructions = fs
-  .readFileSync(__dirname + "/input.txt")
-  .toString()
-  .split("\n");
+const instructions = parse(
+  fs
+    .readFileSync(__dirname + "/input.txt")
+    .toString()
+    .split("\n")
+);
 
-const switchNopJmp = (instructions, index) => {
+const switchNopJmp = (index) => {
   if (instructions[index].operation === "jmp") {
     instructions[index].operation = "nop";
   } else {
@@ -65,15 +68,13 @@ const switchNopJmp = (instructions, index) => {
 };
 
 for (let i = 0; i < instructions.length; i++) {
-  const parsedInstructions = parse(instructions);
-  if (parsedInstructions[i].operation === "acc") continue;
+  if (instructions[i].operation === "acc") continue;
+  switchNopJmp(i);
 
-  switchNopJmp(parsedInstructions, i);
-
-  const game = new Game(parsedInstructions);
+  const game = new Game(instructions);
   if (game.play()) console.log(game.accumulator);
 
-  switchNopJmp(parsedInstructions, i);
+  switchNopJmp(i);
 }
 
 module.exports = {
