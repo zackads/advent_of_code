@@ -18,14 +18,14 @@ class Game {
     this.instructions[this.currentIndex].executed_times += 1;
     switch (this.current().operation) {
       case "nop":
-        this.forward(1);
+        this.move(1);
         break;
       case "acc":
         this.accumulator += this.current().magnitude;
-        this.forward(1);
+        this.move(1);
         break;
       case "jmp":
-        this.forward(this.current().magnitude);
+        this.move(this.current().magnitude);
         break;
       default:
         throw Error("Unrecognised operation");
@@ -36,7 +36,7 @@ class Game {
     return this.instructions[this.currentIndex];
   }
 
-  forward(steps) {
+  move(steps) {
     if (this.currentIndex + steps <= this.instructions.length) {
       this.currentIndex += steps;
     }
