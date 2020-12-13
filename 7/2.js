@@ -30,17 +30,17 @@ const makeGraph = (rules) => {
   return graph;
 };
 
-const countBags = (bag, graph) => {
-  let counter = 0;
-  graph[bag].forEach((inner_bag) => {
-    if (graph[inner_bag[1]].length == 0) {
-      counter += inner_bag[0];
+const hasNoInnerBags = (bag, graph) => graph[bag[1]].length == 0;
+
+const countBags = (bag, graph) =>
+  graph[bag].reduce((counter, inner_bag) => {
+    if (hasNoInnerBags(inner_bag, graph)) {
+      return (counter += inner_bag[0]);
     } else {
-      counter += inner_bag[0] + inner_bag[0] * countBags(inner_bag[1], graph);
+      return (counter +=
+        inner_bag[0] + inner_bag[0] * countBags(inner_bag[1], graph));
     }
-  });
-  return counter;
-};
+  }, 0);
 
 console.log(countBags("shiny gold", makeGraph(rules)));
 
