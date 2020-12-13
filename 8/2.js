@@ -1,3 +1,15 @@
+const fs = require("fs");
+
+const instructions = fs
+  .readFileSync(__dirname + "/input.txt")
+  .toString()
+  .split("\n")
+  .map((rawInstruction) => {
+    const operation = rawInstruction.split(" ")[0];
+    const magnitude = parseInt(rawInstruction.split(" ")[1]);
+    return { operation: operation, magnitude: magnitude };
+  });
+
 class Game {
   constructor(instructions) {
     this.accumulator = 0;
@@ -20,14 +32,14 @@ class Game {
     this.visited.push(this.current());
     switch (this.current().operation) {
       case "nop":
-        this.move(1);
+        this.currentIndex += 1;
         break;
       case "acc":
         this.accumulator += this.current().magnitude;
-        this.move(1);
+        this.currentIndex += 1;
         break;
       case "jmp":
-        this.move(this.current().magnitude);
+        this.currentIndex += this.current().magnitude;
         break;
     }
   }
@@ -35,29 +47,7 @@ class Game {
   current() {
     return this.instructions[this.currentIndex];
   }
-
-  move(steps) {
-    if (this.currentIndex + steps <= this.instructions.length) {
-      this.currentIndex += steps;
-    }
-  }
 }
-
-const parse = (rawInstructions) => {
-  return rawInstructions.map((rawInstruction) => {
-    const operation = rawInstruction.split(" ")[0];
-    const magnitude = parseInt(rawInstruction.split(" ")[1]);
-    return { operation: operation, magnitude: magnitude };
-  });
-};
-
-const fs = require("fs");
-const instructions = parse(
-  fs
-    .readFileSync(__dirname + "/input.txt")
-    .toString()
-    .split("\n")
-);
 
 const switchNopJmp = (index) => {
   if (instructions[index].operation === "jmp") {
