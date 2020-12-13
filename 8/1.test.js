@@ -39,6 +39,14 @@ describe("Game", () => {
       instructions: ["acc +1", "jmp +2", "acc +1", "acc -1"],
       accumulator_value_before_second_execution: 0,
     },
+    {
+      instructions: ["acc +1", "jmp +2", "jmp +2", "jmp -1", "acc +3"],
+      accumulator_value_before_second_execution: 4,
+    },
+    {
+      instructions: ["acc +1", "jmp +2", "acc +1", "acc +3", "jmp -1"],
+      accumulator_value_before_second_execution: 4,
+    },
   ];
 
   expectations.forEach((test_case) => {

@@ -6,12 +6,16 @@ class Game {
   }
 
   play() {
-    while (this.currentIndex < this.instructions.length) {
+    while (
+      this.currentIndex < this.instructions.length &&
+      this.current().executed_times === 0
+    ) {
       this.execute();
     }
   }
 
   execute() {
+    this.instructions[this.currentIndex].executed_times += 1;
     switch (this.current().operation) {
       case "nop":
         this.forward(1);
