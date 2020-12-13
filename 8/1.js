@@ -12,15 +12,20 @@ class Game {
   }
 
   execute() {
-    if (this.current().operation === "nop") {
-      this.forward(1);
-    } else if (this.current().operation === "acc") {
-      this.accumulator += this.current().magnitude;
-      this.forward(1);
-    } else if (this.current().operation === "jmp") {
-      this.forward(this.current().magnitude);
+    switch (this.current().operation) {
+      case "nop":
+        this.forward(1);
+        break;
+      case "acc":
+        this.accumulator += this.current().magnitude;
+        this.forward(1);
+        break;
+      case "jmp":
+        this.forward(this.current().magnitude);
+        break;
+      default:
+        throw Error("Unrecognised operation");
     }
-    console.log(this.currentIndex, this.instructions.length);
   }
 
   current() {
