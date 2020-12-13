@@ -42,10 +42,6 @@ class Game {
     }
   }
 
-  previous() {
-    this.currentIndex -= 1;
-  }
-
   #parse(rawInstructions) {
     return rawInstructions.map((rawInstruction) => {
       const operation = rawInstruction.split(" ")[0];
