@@ -1,8 +1,8 @@
 class Game {
   constructor(instructions) {
     this.accumulator = 0;
-    this.instructions = this.#parse(instructions);
     this.currentIndex = 0;
+    this.instructions = this.#parse(instructions);
   }
 
   play() {
@@ -15,7 +15,7 @@ class Game {
   }
 
   execute() {
-    this.instructions[this.currentIndex].executed_times += 1;
+    this.current().executed_times += 1;
     switch (this.current().operation) {
       case "nop":
         this.move(1);
@@ -51,13 +51,16 @@ class Game {
   }
 }
 
+const fs = require("fs");
+const instructions = fs
+  .readFileSync(__dirname + "/input.txt")
+  .toString()
+  .split("\n");
+
+const game = new Game(instructions);
+game.play();
+console.log(game.accumulator);
+
 module.exports = {
   Game: Game,
 };
-
-// console.log(
-//   "Executing instruction: " +
-//     JSON.stringify(this.current()) +
-//     "| Current index: " +
-//     this.currentIndex
-// );
