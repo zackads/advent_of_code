@@ -8,15 +8,16 @@ class Game {
   play() {
     while (this.currentIndex < this.instructions.length) {
       this.execute();
-      this.forward(1);
     }
   }
 
   execute() {
-    if (this.current().operation === "acc") {
+    if (this.current().operation === "nop") {
+      this.forward(1);
+    } else if (this.current().operation === "acc") {
       this.accumulator += this.current().magnitude;
-    }
-    if (this.current().operation === "jmp") {
+      this.forward(1);
+    } else if (this.current().operation === "jmp") {
       this.forward(this.current().magnitude);
     }
     console.log(this.currentIndex, this.instructions.length);

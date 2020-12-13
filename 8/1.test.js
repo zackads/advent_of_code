@@ -36,7 +36,7 @@ describe("Game", () => {
       accumulator_value_before_second_execution: 4,
     },
     {
-      instructions: ["acc +1", "jmp +2", "acc +1", "acc - 1"],
+      instructions: ["acc +1", "jmp +2", "acc +1", "acc -1"],
       accumulator_value_before_second_execution: 0,
     },
   ];
