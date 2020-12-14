@@ -24,7 +24,24 @@ const sumsOfTwo = (numbers) => {
   return Array.from(sums);
 };
 
-console.log(firstNumNotSumOfTwoPreceedingNNumbers(numbers, 25));
+const answerFromPart1 = firstNumNotSumOfTwoPreceedingNNumbers(numbers, 25);
+
+const sum = (numbers) => numbers.reduce((a, b) => a + b, 0);
+
+const findContiguousSetOfTwoOrMoreNumsThatSumToX = (numbers, x) => {
+  for (let i = 0; i < numbers.length; i++) {
+    for (let j = i; sum(numbers.slice(i, j)) <= x; j++) {
+      if (sum(numbers.slice(i, j)) === x) return numbers.slice(i, j);
+    }
+  }
+};
+
+const contiguousRange = findContiguousSetOfTwoOrMoreNumsThatSumToX(
+  numbers,
+  answerFromPart1
+);
+const part2Answer = Math.max(...contiguousRange) + Math.min(...contiguousRange);
+console.log(part2Answer);
 
 module.exports = {
   firstNumNotSumOfTwoPreceedingNNumbers: firstNumNotSumOfTwoPreceedingNNumbers,
