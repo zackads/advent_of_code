@@ -11,7 +11,8 @@ const adapters = fs
   .split("\n")
   .map((str) => parseInt(str));
 
-const adjacencyList = (vertices) =>
+// Directed adjacency list, e.g. { 1: [3], 3: [5], 5: []}
+const createGraph = (vertices) =>
   vertices
     .sort((a, b) => a - b)
     .reduce((adj, vertex, i, array) => {
@@ -22,38 +23,10 @@ const adjacencyList = (vertices) =>
       return adj;
     }, {});
 
-const longestPath = (directed_adjacency_list) => {
-  const vertices = Object.keys(directed_adjacency_list);
-
-  const path = [];
-  vertices.forEach((vertex) => {
-    path.push(parseInt(vertex));
-  });
-  return path;
-};
-
-const accountForOutletAndDevice = (adapters) => {
+const addOutletAndDevice = (adapters) => {
   const outletJolts = 0;
   const deviceJolts = Math.max(...adapters) + 3;
   return [outletJolts, ...adapters, deviceJolts];
-};
-
-const countJoltDiffs = (adapters, diff) => {
-  return adapters
-    .sort((a, b) => a - b)
-    .reduce((counter, adapter, index, array) => {
-      if (array[index + 1] - adapter === diff) {
-        return (counter += 1);
-      }
-      return counter;
-    }, 0);
-};
-
-const product1and3JoltDiffs = (adapters) => {
-  return (
-    countJoltDiffs(accountForOutletAndDevice(adapters), 1) *
-    countJoltDiffs(accountForOutletAndDevice(adapters), 3)
-  );
 };
 
 // Memoized, recursive function
@@ -68,21 +41,19 @@ const memoize = (func) => {
 const countPaths = memoize(function (graph, start, finish) {
   counter = 0;
   if (graph[start].includes(finish)) counter += 1;
-  graph[start].forEach((vertex) => {
-    counter += countPaths(graph, vertex, finish);
-  });
+  graph[start].forEach(
+    (vertex) => (counter += countPaths(graph, vertex, finish))
+  );
   return counter;
 });
 
-const graph = adjacencyList(accountForOutletAndDevice(adapters));
-const device = accountForOutletAndDevice(adapters).slice(-1)[0];
+const graph = createGraph(addOutletAndDevice(adapters));
+const device = addOutletAndDevice(adapters).slice(-1)[0];
 
 console.log(countPaths(graph, 0, device));
 
 module.exports = {
-  adjacencyList: adjacencyList,
-  longestPath: longestPath,
-  product1and3JoltDiffs: product1and3JoltDiffs,
+  createGraph: createGraph,
   countPaths: countPaths,
   memoize: memoize,
 };
