@@ -70,10 +70,18 @@ const product1and3JoltDiffs = (adapters) => {
   );
 };
 
-console.log(product1and3JoltDiffs(adapters));
+const countPaths = (graph, start, finish) => {
+  counter = 0;
+  if (graph[start].includes(finish)) counter += 1;
+  graph[start].forEach(
+    (vertex) => (counter += countPaths(graph, vertex, finish))
+  );
+  return counter;
+};
 
 module.exports = {
   adjacencyList: adjacencyList,
   longestPath: longestPath,
   product1and3JoltDiffs: product1and3JoltDiffs,
+  countPaths: countPaths,
 };
