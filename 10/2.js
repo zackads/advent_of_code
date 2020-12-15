@@ -1,23 +1,9 @@
-// Any given adapter can take an input 1, 2, or 3 jolts lower than its rating and still produce its rated output joltage.
-
-// [ i - 1, i ], element [i - 1] must be <= (element [i] - 3)
-// [1, 3, 5] is OK ✅
-// [1, 5, 7] and [5, 7, 1] are not OK ❌
-
-// [<Charging outlet = 0>, <...Your adapters>, <Your Device = 3 jolts higher than highest adaptor>]
-
-// 1. Create graph of adapters (adjaceny list)
-// 2. Solve longest path
-// 3. Count jolt differences between adapters
-// 4. Multiply to get answers
-
-// -----
-
 // With thanks to:
 // https://www.khanacademy.org/computing/computer-science/algorithms/graph-representation/a/representing-graphs
 // https://www.geeksforgeeks.org/longest-path-in-a-directed-acyclic-graph-dynamic-programming/
+// https://stackoverflow.com/questions/21918436/total-number-of-paths-in-directed-acyclic-graph-containing-a-specific-link
+// https://www.jstips.co/en/javascript/speed-up-recursive-functions-with-memoization/
 
-// 1.  Generate adjacency list
 const fs = require("fs");
 const adapters = fs
   .readFileSync(__dirname + "/input.txt")
@@ -70,18 +56,33 @@ const product1and3JoltDiffs = (adapters) => {
   );
 };
 
-const countPaths = (graph, start, finish) => {
+// Memoized, recursive function
+const memoize = (func) => {
+  const cache = {};
+  return (...args) => {
+    const key = JSON.stringify(args);
+    return key in cache ? cache[key] : (cache[key] = func(...args));
+  };
+};
+
+const countPaths = memoize(function (graph, start, finish) {
   counter = 0;
   if (graph[start].includes(finish)) counter += 1;
-  graph[start].forEach(
-    (vertex) => (counter += countPaths(graph, vertex, finish))
-  );
+  graph[start].forEach((vertex) => {
+    counter += countPaths(graph, vertex, finish);
+  });
   return counter;
-};
+});
+
+const graph = adjacencyList(accountForOutletAndDevice(adapters));
+const device = accountForOutletAndDevice(adapters).slice(-1)[0];
+
+console.log(countPaths(graph, 0, device));
 
 module.exports = {
   adjacencyList: adjacencyList,
   longestPath: longestPath,
   product1and3JoltDiffs: product1and3JoltDiffs,
   countPaths: countPaths,
+  memoize: memoize,
 };

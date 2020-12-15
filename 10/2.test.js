@@ -1,4 +1,4 @@
-const { countPaths } = require("./2");
+const { memoize, countPaths } = require("./2");
 
 describe("countPaths", () => {
   const expectations = [
@@ -55,10 +55,12 @@ describe("countPaths", () => {
   expectations.forEach((test_case) => {
     test(`${JSON.stringify(test_case.input)} => ${test_case.output}`, () => {
       expect(
-        countPaths(
-          test_case.input.graph,
-          test_case.input.start,
-          test_case.input.finish
+        memoize(
+          countPaths(
+            test_case.input.graph,
+            test_case.input.start,
+            test_case.input.finish
+          )
         )
       ).toEqual(test_case.output);
     });
