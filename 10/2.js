@@ -38,7 +38,7 @@ const memoize = (func) => {
   };
 };
 
-const countPaths = memoize(function (graph, start, finish) {
+const countPaths = memoize((graph, start, finish) => {
   counter = 0;
   if (graph[start].includes(finish)) counter += 1;
   graph[start].forEach(
