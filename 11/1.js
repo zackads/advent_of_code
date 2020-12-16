@@ -22,15 +22,17 @@ const hasFourAdjacentOccupiedSeats = (ferry, row_index, seat_index) =>
 const hasNoAdjacentOccupiedSeats = (ferry, row_index, seat_index) =>
   !adjacentSeats(ferry, seat_index, row_index).includes(SEAT_OCCUPIED);
 
-const applyRules = (layout) => {
-  return layout.map((row, row_index) =>
+const applyRules = (ferry) => {
+  return ferry.map((row, row_index) =>
     row.map((seat, seat_index) => {
-      const adjacent_seats = adjacentSeats(layout, seat_index, row_index);
-      if (seat === SEAT_EMPTY && !adjacent_seats.includes(SEAT_OCCUPIED))
+      if (
+        isEmpty(ferry, row_index, seat_index) &&
+        hasNoAdjacentOccupiedSeats(ferry, row_index, seat_index)
+      )
         return SEAT_OCCUPIED;
       if (
-        seat === SEAT_OCCUPIED &&
-        adjacent_seats.filter((seat) => seat === SEAT_OCCUPIED).length >= 4
+        isOccupied(ferry, row_index, seat_index) &&
+        hasFourAdjacentOccupiedSeats(ferry, row_index, seat_index)
       )
         return SEAT_EMPTY;
       return seat;
