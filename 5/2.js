@@ -18,6 +18,7 @@ const calcSeatId = (pass) =>
 
 const passes = fs.readFileSync("input").toString().split("\n");
 const seatIds = passes.map((pass) => calcSeatId(pass));
+
 const mySeat =
   seatIds
     .sort((a, b) => a - b)

@@ -4,16 +4,28 @@ const SEAT_OCCUPIED = "#";
 const SEAT_EMPTY = "L";
 const FLOOR = ".";
 
-const layout = fs
+const ferry = fs
   .readFileSync(__dirname + "/input.txt")
   .toString()
   .split("\n")
   .map((line) => line.split(""));
 
+// Functions to determine state of seat
+const isEmpty = (ferry, row_index, seat_index) =>
+  ferry[row_index][seat_index] === SEAT_EMPTY;
+const isOccupied = (ferry, row_index, seat_index) =>
+  ferry[row_index][seat_index] === SEAT_OCCUPIED;
+const hasFourAdjacentOccupiedSeats = (ferry, row_index, seat_index) =>
+  adjacentSeats(ferry, seat_index, row_index).filter(
+    (seat) => seat === SEAT_OCCUPIED
+  ).length >= 4;
+const hasNoAdjacentOccupiedSeats = (ferry, row_index, seat_index) =>
+  !adjacentSeats(ferry, seat_index, row_index).includes(SEAT_OCCUPIED);
+
 const applyRules = (layout) => {
   return layout.map((row, row_index) =>
     row.map((seat, seat_index) => {
-      const adjacent_seats = adjacents(layout, seat_index, row_index);
+      const adjacent_seats = adjacentSeats(layout, seat_index, row_index);
       if (seat === SEAT_EMPTY && !adjacent_seats.includes(SEAT_OCCUPIED))
         return SEAT_OCCUPIED;
       if (
@@ -29,20 +41,20 @@ const applyRules = (layout) => {
 const parse = (seatLayoutString) =>
   seatLayoutString.split("\n").map((line) => line.split(""));
 
-const adjacents = (layout, seat_index, row_index) => {
+const adjacentSeats = (ferry, seat_index, row_index) => {
   const adjacents = [];
-  if (layout[row_index - 1]) {
-    adjacents.push(layout[row_index - 1][seat_index - 1] || null);
-    adjacents.push(layout[row_index - 1][seat_index] || null);
-    adjacents.push(layout[row_index - 1][seat_index + 1] || null);
+  if (ferry[row_index - 1]) {
+    adjacents.push(ferry[row_index - 1][seat_index - 1] || null);
+    adjacents.push(ferry[row_index - 1][seat_index] || null);
+    adjacents.push(ferry[row_index - 1][seat_index + 1] || null);
   }
-  if (layout[row_index + 1]) {
-    adjacents.push(layout[row_index + 1][seat_index + 1] || null);
-    adjacents.push(layout[row_index + 1][seat_index] || null);
-    adjacents.push(layout[row_index + 1][seat_index - 1] || null);
+  if (ferry[row_index + 1]) {
+    adjacents.push(ferry[row_index + 1][seat_index + 1] || null);
+    adjacents.push(ferry[row_index + 1][seat_index] || null);
+    adjacents.push(ferry[row_index + 1][seat_index - 1] || null);
   }
-  adjacents.push(layout[row_index][seat_index + 1] || null);
-  adjacents.push(layout[row_index][seat_index - 1] || null);
+  adjacents.push(ferry[row_index][seat_index + 1] || null);
+  adjacents.push(ferry[row_index][seat_index - 1] || null);
   return adjacents;
 };
 
