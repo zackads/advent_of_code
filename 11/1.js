@@ -40,9 +40,6 @@ const applyRules = (ferry) => {
   );
 };
 
-const parse = (seatLayoutString) =>
-  seatLayoutString.split("\n").map((line) => line.split(""));
-
 const adjacentSeats = (ferry, seat_index, row_index) => {
   const adjacents = [];
   if (ferry[row_index - 1]) {
@@ -60,16 +57,23 @@ const adjacentSeats = (ferry, seat_index, row_index) => {
   return adjacents;
 };
 
-// console.log(
-//   JSON.stringify(
-//     applyRules(
-//       parse(`#.##.##.##
-//   #######.##
-//   #.#.#..#..`)
-//     )
-//   )
-// );
+const repeatUntilStatic = (ferry) => {
+  let ferry_before = ferry;
+  let ferry_after = applyRules(ferry_before);
+
+  do {
+    ferry_before = ferry_after;
+    ferry_after = applyRules(ferry_before);
+  } while (JSON.stringify(ferry_before) !== JSON.stringify(ferry_after));
+  return ferry_after;
+};
+
+const occupiedSeats = (ferry) =>
+  ferry.flat().filter((seat) => seat === SEAT_OCCUPIED).length;
+
+console.log(occupiedSeats(repeatUntilStatic(ferry)));
 
 module.exports = {
   applyRules: applyRules,
+  repeatUntilStatic: repeatUntilStatic,
 };
