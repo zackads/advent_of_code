@@ -1,4 +1,4 @@
-const { Ship } = require("./Ship1");
+const { Ship } = require("./Ship2");
 
 const fs = require("fs");
 const actions = fs
@@ -14,7 +14,7 @@ actions.forEach((action) => {
 const manhattan_distance = (position) =>
   Math.abs(position.east) + Math.abs(position.north);
 
-console.log(manhattan_distance(ship.current_position));
+// console.log(manhattan_distance(ship.current_position));
 
 module.exports = {
   manhattan_distance: manhattan_distance,

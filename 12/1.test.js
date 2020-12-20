@@ -1,5 +1,5 @@
 const { expect, describe } = require("@jest/globals");
-const { Ship } = require("./Ship");
+const { Ship } = require("./Ship1");
 const { manhattan_distance } = require("./1.js");
 
 describe("ship", () => {
