@@ -60,9 +60,51 @@ describe("ship", () => {
         north: 1,
       },
     },
-    // Rotating waypoint
+    // Rotating waypoint (starts at { east: 10, north: 1 })
     {
       evasive_actions: ["R90", "F1"],
+      end_position: {
+        east: 1,
+        north: -10,
+      },
+    },
+    {
+      evasive_actions: ["R180", "F1"],
+      end_position: {
+        east: -10,
+        north: -1,
+      },
+    },
+    {
+      evasive_actions: ["R90", "R90", "F1"],
+      end_position: {
+        east: -10,
+        north: -1,
+      },
+    },
+    {
+      evasive_actions: ["R270", "F1"],
+      end_position: {
+        east: -1,
+        north: 10,
+      },
+    },
+    {
+      evasive_actions: ["L90", "F1"],
+      end_position: {
+        east: -1,
+        north: 10,
+      },
+    },
+    {
+      evasive_actions: ["L180", "F1"],
+      end_position: {
+        east: -10,
+        north: -1,
+      },
+    },
+    {
+      evasive_actions: ["L270", "F1"],
       end_position: {
         east: 1,
         north: -10,

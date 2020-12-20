@@ -38,21 +38,22 @@ class Ship {
   }
 
   #setWaypointPosition(action) {
+    const { east, north } = this.waypoint_position;
     switch (action) {
       case "R90":
-        const { east, north } = this.waypoint_position;
+      case "L270":
         this.waypoint_position.east = north;
         this.waypoint_position.north = -east;
         break;
+      case "L180":
       case "R180":
-        break;
-      case "R270":
+        this.waypoint_position.east = -east;
+        this.waypoint_position.north = -north;
         break;
       case "L90":
-        break;
-      case "L180":
-        break;
-      case "L270":
+      case "R270":
+        this.waypoint_position.east = -north;
+        this.waypoint_position.north = east;
         break;
       default:
         throw "Unhandled rotation of the waypoint";

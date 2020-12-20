@@ -14,7 +14,7 @@ actions.forEach((action) => {
 const manhattan_distance = (position) =>
   Math.abs(position.east) + Math.abs(position.north);
 
-// console.log(manhattan_distance(ship.current_position));
+console.log(manhattan_distance(ship.position));
 
 module.exports = {
   manhattan_distance: manhattan_distance,
