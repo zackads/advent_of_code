@@ -60,6 +60,14 @@ describe("ship", () => {
         north: 1,
       },
     },
+    // Rotating waypoint
+    {
+      evasive_actions: ["R90", "F1"],
+      end_position: {
+        east: 1,
+        north: -10,
+      },
+    },
   ];
 
   expectations.forEach((test_case) => {
