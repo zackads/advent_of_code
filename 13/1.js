@@ -8,7 +8,7 @@ const parse = (input) => {
   return [earliest_departure, buses];
 };
 
-const earliestBus = (earliest_departure, bus_ids) => {
+const busWithShortestWait = (earliest_departure, bus_ids) => {
   const buses = bus_ids.map((id) => {
     return {
       id: id,
@@ -30,8 +30,8 @@ const wait = (bus_id, earliest_departure) => {
   return departure_time - earliest_departure;
 };
 
-console.log(earliestBus(...parse(input)));
+console.log(busWithShortestWait(...parse(input)));
 
 module.exports = {
-  earliestBus: earliestBus,
+  busWithShortestWait: busWithShortestWait,
 };

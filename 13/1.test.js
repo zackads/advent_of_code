@@ -1,7 +1,7 @@
 const { expect, describe } = require("@jest/globals");
-const { earliestBus } = require("./1.js");
+const { busWithShortestWait } = require("./1.js");
 
-describe("earliestBus", () => {
+describe("busWithShortestWait", () => {
   const expectations = [
     {
       input: {
@@ -60,7 +60,10 @@ describe("earliestBus", () => {
       test_case.output
     )}`, () => {
       expect(
-        earliestBus(test_case.input.earliest_departure, test_case.input.bus_ids)
+        busWithShortestWait(
+          test_case.input.earliest_departure,
+          test_case.input.bus_ids
+        )
       ).toEqual(test_case.output);
     });
   });
