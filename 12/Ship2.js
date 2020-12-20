@@ -8,13 +8,39 @@ class Ship {
       east: 10,
       north: 1,
     };
-    this.waypoint_bearing = 90; // East
   }
 
   move(action) {
     const { direction, distance } = this.#parse(action);
-    if (direction === "L" || direction === "R")
-      this.#setWaypointPosition(action);
+    switch (direction) {
+      case "L":
+      case "R":
+        this.#rotateWaypoint(direction, distance);
+        break;
+      case "N":
+      case "S":
+      case "E":
+      case "W":
+        this.#moveWaypoint(direction, distance);
+        break;
+      case "F":
+        this.#moveShip(distance);
+        break;
+      default:
+        throw "Unhandled action:" + direction;
+    }
+  }
+
+  #moveShip(distance) {
+    for (let i = 0; i < distance; i++) {
+      this.position = {
+        east: this.position.east + this.waypoint_position.east,
+        north: this.position.north + this.waypoint_position.north,
+      };
+    }
+  }
+
+  #moveWaypoint(direction, distance) {
     if (direction === "N" || direction === "S") {
       this.waypoint_position = {
         east: this.waypoint_position.east,
@@ -37,9 +63,9 @@ class Ship {
     }
   }
 
-  #setWaypointPosition(action) {
+  #rotateWaypoint(direction, distance) {
     const { east, north } = this.waypoint_position;
-    switch (action) {
+    switch (direction + distance) {
       case "R90":
       case "L270":
         this.waypoint_position.east = north;
@@ -56,7 +82,7 @@ class Ship {
         this.waypoint_position.north = east;
         break;
       default:
-        throw "Unhandled rotation of the waypoint";
+        throw "Unhandled rotation of the waypoint: " + direction + distance;
     }
   }
 
@@ -64,8 +90,6 @@ class Ship {
     const direction = action[0];
     let distance = Number(action.slice(1));
     if (direction === "S" || direction === "W") distance = -distance;
-    if (direction === "F" && (this.heading === 180 || this.heading === 270))
-      distance = -distance;
     return {
       direction: direction,
       distance: distance,
