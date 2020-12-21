@@ -55,7 +55,6 @@ const sum = (memory) =>
   Object.values(memory).reduce((acc, cur) => (acc += cur), 0);
 
 console.log(sum(initialize(code)));
-// console.log(sum(initialize(parse(code))));
 
 module.exports = {
   applyMask: applyMask,
