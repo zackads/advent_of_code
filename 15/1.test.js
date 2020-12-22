@@ -6,27 +6,6 @@ describe("nthNumber", () => {
     {
       input: {
         starting_numbers: [0, 3, 6],
-        n: 1,
-      },
-      output: 0,
-    },
-    {
-      input: {
-        starting_numbers: [0, 3, 6],
-        n: 2,
-      },
-      output: 3,
-    },
-    {
-      input: {
-        starting_numbers: [0, 3, 6],
-        n: 3,
-      },
-      output: 6,
-    },
-    {
-      input: {
-        starting_numbers: [0, 3, 6],
         n: 4,
       },
       output: 0,
