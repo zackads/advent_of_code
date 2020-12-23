@@ -6,7 +6,9 @@ const parse = (input) => {
   for (let z = 0; z < ndArray.length; z++) {
     for (let y = 0; y < ndArray[z].length; y++) {
       for (let x = 0; x < ndArray[z][y].length; x++) {
-        if (ndArray[z][y][x] === "#") active.add(`${x},${y},${z}`);
+        for (let w = 0; w < ndArray[z][y][x].length; w++) {
+          if (ndArray[z][y][x][w] === "#") active.add(`${x},${y},${z},${w}`);
+        }
       }
     }
   }
@@ -18,11 +20,14 @@ let initial_state = parse(fs.readFileSync(__dirname + "/input.txt").toString());
 
 const neighbours = (cube) => {
   const neighbours = new Set();
-  const [x, y, z] = cube.split(",").map((n) => parseInt(n));
+  const [x, y, z, w] = cube.split(",").map((n) => parseInt(n));
   for (let i = x - 1; i <= x + 1; i++) {
     for (let j = y - 1; j <= y + 1; j++) {
       for (let k = z - 1; k <= z + 1; k++) {
-        if (`${i},${j},${k}` !== cube) neighbours.add(`${i},${j},${k}`);
+        for (let l = w - 1; l <= w + 1; l++) {
+          if (`${i},${j},${k},${l}` !== cube)
+            neighbours.add(`${i},${j},${k},${l}`);
+        }
       }
     }
   }
