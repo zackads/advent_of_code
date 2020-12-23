@@ -1,6 +1,7 @@
 const { expect, describe } = require("@jest/globals");
 const { decodeTicket, calculatePositions } = require("./2.js");
 
+// Didn't actually need this test
 describe.skip("decodeTicket", () => {
   const expectations = [
     {

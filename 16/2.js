@@ -1,17 +1,6 @@
 const fs = require("fs");
 const notes = fs.readFileSync(__dirname + "/input.txt").toString();
 
-const errorRate = (notes) => {
-  const { rules, nearby_tickets } = parse(notes);
-
-  return nearby_tickets.reduce((sum_invalid_values, ticket) => {
-    return (
-      sum_invalid_values +
-      invalidValues(ticket, rules).reduce((acc, cur) => acc + cur, 0)
-    );
-  }, 0);
-};
-
 const invalidValues = (ticket, rules) => {
   const invalid_values = [];
   ticket.forEach((field) => {
@@ -67,7 +56,6 @@ const decodeTicket = (notes) => {
   );
   const positions = {};
 
-  // Nasty
   rules.forEach((rule) => {
     positions[rule.category] = [];
     fields.forEach((field, index) => {
@@ -82,29 +70,16 @@ const decodeTicket = (notes) => {
       }
     });
   });
-  //   Object.entries(calculatePositions(positions)).reduce((product, field) => {
-  //     const [field_name, position] = field;
-  //     if (field_name.slice(0, 9) === "departure") {
-  //       return (product *= position);
-  //     } else {
-  //       return product;
-  //     }
-  //   }, 1)
+
   const departure_indexes = Object.entries(calculatePositions(positions))
-    .filter((field) => {
-      const [field_name, position] = field;
-      return field_name.slice(0, 9) === "departure";
-    })
+    .filter((field) => field[0].slice(0, 9) === "departure")
     .map((field) => field[1]);
 
-  console.log(
-    my_ticket
-      .filter((field, index) => departure_indexes.includes(index))
-      .reduce((product, value) => (product = product *= value))
-  );
+  return my_ticket
+    .filter((field, index) => departure_indexes.includes(index))
+    .reduce((product, value) => (product = product *= value));
 };
 
-// { class: [1, 2], row: [0, 1, 2], seat: [2] }
 const calculatePositions = (positions) => {
   let positions_array = Object.entries(positions).sort(
     (a, b) => a[1].length - b[1].length
@@ -117,21 +92,12 @@ const calculatePositions = (positions) => {
         return !Object.values(confirmed_positions).includes(possible_position);
       });
 
-      if (possible_positions.length === 1) {
-        confirmed_position = possible_positions[0];
-        return { ...confirmed_positions, [field_name]: confirmed_position };
-      }
+      confirmed_position = possible_positions[0];
+      return { ...confirmed_positions, [field_name]: confirmed_position };
     },
     {}
   );
-  //   if (
-  //     Object.keys(confirmed_positions).length === Object.keys(positions).length
-  //   ) {
   return confirmed_positions;
-  //   }
-  //   } else {
-  //     return calculatePositions(Object.fromEntries(positions_array));
-  //   }
 };
 
 module.exports = {
@@ -139,4 +105,4 @@ module.exports = {
   calculatePositions: calculatePositions,
 };
 
-decodeTicket(notes);
+console.log(decodeTicket(notes));
