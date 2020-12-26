@@ -9,7 +9,7 @@
       "request": "launch",
       "name": "Launch Program",
       "skipFiles": ["<node_internals>/**"],
-      "program": "${workspaceFolder}/18/1.js"
+      "program": "${workspaceFolder}/19/1z.js"
     }
   ]
 }
