@@ -19,14 +19,10 @@ const rotate90 = (square) => {
   );
 };
 
-const print = (square) => {
-  console.log(square.map((line) => line.join("")).join("\n"));
-};
-
 const flip = (square) => square.map((line) => [...line].reverse());
 
 const permutations = (tile) => {
-  const permutations = [
+  return [
     tile,
     rotate90(tile),
     rotate90(rotate90(tile)),
@@ -36,8 +32,6 @@ const permutations = (tile) => {
     flip(rotate90(rotate90(tile))),
     flip(rotate90(rotate90(rotate90(tile)))),
   ];
-
-  return permutations;
 };
 
 const neighbours = (tiles) => {
